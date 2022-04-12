@@ -1,15 +1,15 @@
-const UserModel= require("../models/userModel")
+const bookSchema= require("../models/bookModel")
 
 const createUser= async function (req, res) {
     let data= req.body
-    let savedData= await UserModel.create(data)
-    res.send({msg: savedData})
+    let allBooks= await bookSchema.create(data)
+    res.send({msg: allBooks})
 }
 
 const getUsersData= async function (req, res) {
-    let allUsers= await UserModel.find()
-    res.send({msg: allUsers})
+    let allBooks= await bookSchema.find()
+    res.send({msg: allBooks})
 }
 
-module.exports.createUser= createUser
-module.exports.getUsersData= getUsersData
+// module.exports.createUser= createUser
+// module.exports.getUsersData= getUsersData
