@@ -1,21 +1,31 @@
 const express = require('express');
-const bookModel = require('../models/bookModel');
+// const bookModel = require('../mongoDb/bookModel');
+// const authorModel = require('../mongoDb/authorModel');
+const allcontroller=require('../mongoDb/allcontroller')
 const router = express.Router();
-const bookSchema= require("../models/bookModel")
-// const UserModel= require("../models/userModel.js")
-// const UserController= require("../controllers/userController")
+// const bookController= require("../controllers/bookController")
 
-router.post("/books", async function (req, res) {
-    let  newBook=req.body
-    let bookData=await bookSchema.create(newBook)
-    res.send(bookData)
-})
-router.get("/books", async function (req ,res){
-    let allBooks= await bookSchema.find()
-    res.send(allBooks)
-})
-// router.post("/createUser", UserController.createUser  )
+// router.post("/createBook", bookController.createBook )
 
-// router.get("/getUsersData", UserController.getUsersData)
+// router.get("/bookList", bookController.book)
 
+// router.get("/getBooksInYear", bookController.bookByYear)
+
+// router.get("/getParticularBook", bookController.particularBook)
+
+// router.get("/getXINRBooks", bookController.getXINRBooks)
+
+// router.get("/getRandomBooks", bookController.getRandomBooks)
+
+// router.get("/getRandomBooks", bookModel.getRandomBooks)
+
+router.post("/createBooks", allcontroller.createBook )
+
+router.post("/createAuthor", allcontroller.createAuthor )
+
+router.get("/findBook", allcontroller.findBook )
+
+router.get("/findAuthor", allcontroller.findAuthor )
+
+router.get("/bookCosts", allcontroller.bookCosts )
 module.exports = router;
