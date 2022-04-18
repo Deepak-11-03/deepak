@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "hlo": "node uranium/uranium/src/index.js"  
+    "hlo": "node src/index.js"  
   },
   "author": "",
   "license": "ISC",
