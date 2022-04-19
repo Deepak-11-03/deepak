@@ -1,13 +1,12 @@
 const express = require('express');
 const allcontroller=require('../controllers/allcontroller')
 const router = express.Router();
-router.post("/createAuthor", allcontroller.createAuthor )
+router.post("/createBatch", allcontroller.createBatch )
 
-router.post("/createPublisher", allcontroller.createPublisher )
+router.post("/createDeveloper", allcontroller.createDeveloper )
 
-router.post("/createBooks", allcontroller.createBook )
+router.get("/scholarship-developers", allcontroller.scholarshipDev )
 
-router.get("/fetchData", allcontroller.fetchData )
+router.get("/developers", allcontroller.developers )
 
-router.put("/updateBooks", allcontroller.updateBook )
 module.exports = router;
