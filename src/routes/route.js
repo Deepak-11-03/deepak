@@ -5,15 +5,23 @@ const router = express.Router();
 
 
 const middleware=function (req, res, next) {
-    let x=  new Date(),
-      y=req.ip,
-      z=req.url
-    console.log(x , y, z)
-    next()
+    let headers= req.headers
+    let freeApp=headers['isfreeappuser']
+    if (!freeApp) {
+      res.send("request is missing a mandatory header");
+    }
+  //  else if (freeApp=="true") {
+  //     next();
+  //   }
+    else{
+      next();
+    }
 }
 
-router.get("/gettime",middleware,allcontroller.dateTime)
+router.post("/createProduct",allcontroller.createProduct)
 
-router.get("/demo",middleware,allcontroller.demo)
+router.post("/createUser",middleware,allcontroller.createUser)
+
+router.post("/createOrder",middleware,allcontroller.createOrder)
 
 module.exports = router;
