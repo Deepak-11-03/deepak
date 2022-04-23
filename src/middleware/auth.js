@@ -1,33 +1,45 @@
+const { status } = require("express/lib/response");
 const jwt = require("jsonwebtoken");
-const authenticate = function(req, res, next) {
-    let token = req.headers["x-auth-token"]
-    if (!token) token = req.headers["x-auth-token"];
-    if(!token) 
-    return res.send({status: false, msg: "token must be present in the request header"})
-    let decodedToken = jwt.verify(token, "functionup-thorium");
-    if (!decodedToken)
-      return res.send({ status: false, msg: "token is invalid" });
-    next()
+const authenticate = function (req, res, next) {
+  try{
+  let token = req.headers["x-auth-token"]
+  if (!token)
+    token = req.headers["x-auth-token"];
+  if (!token)
+    return res.send({ status: false, msg: "token must be present in the request header" })
+  let decodedToken = jwt.verify(token, "functionup-uranium");
+  if (!decodedToken){
+    return res.status(400).send({ status: false, msg: "token not found" });
+  }
+}
+catch{
+  res.status(500).send({status:false,msg:"invalid token"})
+  return
+}
+    next();
 }
 
 
-const authorise = function(req, res, next) {
-    let token = req.headers["x-auth-token"]
+const authorise = async function (req, res, next) {
+  try {
+    let token = req.headers["x-Auth-token"];
     if (!token) token = req.headers["x-auth-token"];
-    if(!token) 
-    return res.send({status: false, msg: "token must be present in the request header"})
-    let decodedToken = jwt.verify(token, "functionup-thorium");
+    if (!token)
+      return res.send({ status: false, msg: "token must be present" });
+    let decodedToken = jwt.verify(token, "functionup-uranium");
     if (!decodedToken)
-      return res.send({ status: false, msg: "token is invalid" });
-    let userToBeModified = req.params.userId
-    //userId for the logged-in user
-    let userLoggedIn = decodedToken.userId
-
-    //userId comparision to check if the logged-in user is requesting for their own data
-    if(userToBeModified != userLoggedIn) 
-    return res.send({status: false, msg: 'You can modify or update your own data'})
-    next()
+      return res.status(400).send({ status: false, msg: "token is invalid" });
+    let userlogged = decodedToken.userId
+    let userDetails = req.params.userId;
+    if (userDetails !== userlogged)
+      return res.status(404).send({ status: false, msg: "No such user exists" });
+    }
+   catch (err) {
+    console.log("This is the error :", err.message)
+    res.status(500).send({ msg: "Error", error: err.message })
+    return;
+  }
+  next();
 }
-
-module.exports.authenticate=authenticate
-module.exports.authorise=authorise
+module.exports.authenticate = authenticate
+module.exports.authorise = authorise
