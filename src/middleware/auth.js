@@ -6,7 +6,8 @@ const authenticate = function(req, res, next) {
     return res.send({status: false, msg: "token must be present in the request header"})
     let decodedToken = jwt.verify(token, "functionup-thorium");
     if (!decodedToken)
-      return res.send({ status: false, msg: "token is invalid" });
+      res.send({ status: false, msg: "token is invalid" });
+    return;
     next()
 }
 
